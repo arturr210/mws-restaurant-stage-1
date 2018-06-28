@@ -78,7 +78,7 @@ initMap = () => {
         scrollWheelZoom: false
       });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<your MAPBOX API KEY HERE>',
+    mapboxToken: 'pk.eyJ1IjoiYXJ0aHVybGFzIiwiYSI6ImNqaXV0cnYzbjJlaWgzcXBhdzZrMTM5b2IifQ.sFbofe59m8Ly8HVBdVyegg',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -161,6 +161,7 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = "Photo of depicted place" + restaurant.name;
   li.append(image);
 
   const name = document.createElement('h1');
@@ -209,3 +210,16 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 } */
 
+//from https://developers.google.com/web/fundamentals/primers/service-workers/
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register("/sw.js").then(function(reg) {
+      // Registration was successful
+      console.log('ServiceWorker registration ok: ', reg.scope);
+    }, function(error) {
+      // registration failed :(
+      console.log(' registration failed: ', error);
+    });
+  });
+}
